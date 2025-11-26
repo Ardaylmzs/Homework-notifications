@@ -1,0 +1,34 @@
+name: Selenium Botu
+
+# Ne zaman çalışacak?
+on:
+  schedule:
+    - cron: '30 19 * * *'  # Her gün saat 09:00'da (UTC saatiyle)
+  workflow_dispatch:      # "Run" butonuna basınca manuel çalışsın diye
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # GitHub'ın vereceği bilgisayar (Linux)
+
+    steps:
+      - name: Kodları Çek (Checkout)
+        uses: actions/checkout@v3
+
+      - name: Python Kurulumu
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Kütüphaneleri Yükle
+        run: |
+          pip install -r requirements.txt
+
+      - name: Botu Çalıştır
+        env:
+          CHROME_USER: ${{ secrets.CHROME_USER }}
+          MYL_LAB_EMAIL: ${{ secrets.MYL_LAB_EMAIL }}
+          MY_LAB_PASSWORD: ${{ secrets.MY_LAB_PASSWORD }}
+          MY_EMAIL: ${{ secrets.MY_EMAIL }}
+          MY_PASSWORD: ${{ secrets.MY_PASSWORD }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+        run: python main.py
