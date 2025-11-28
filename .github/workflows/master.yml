@@ -3,7 +3,7 @@ name: Selenium Botu
 # Ne zaman çalışacak?
 on:
   schedule:
-    - cron: '40 13 * * *'  # Her gün saat 09:00'da (UTC saatiyle)
+    - cron: '48 13 * * *'  # Her gün saat 09:00'da (UTC saatiyle)
   workflow_dispatch:      # "Run" butonuna basınca manuel çalışsın diye
 
 jobs:
