@@ -32,7 +32,7 @@ drivers.get("https://www.pearson.com/en-us/higher-education/products-services/my
 sleep(5)
 
 login_button = drivers.find_element(By.XPATH, value='//*[@id="main-content-starts"]/div[1]/div/section[1]/div[2]/div/div[2]/div/div/section/div/div/div/div[1]/div/div/div/div/p[2]/a' )
-login_button.click()
+drivers.execute_script("arguments[0].click();", login_button)
 sleep(5)
 try:
     email_input = drivers.find_element(By.NAME, value="username")
