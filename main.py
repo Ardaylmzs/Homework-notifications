@@ -66,7 +66,7 @@ drivers.execute_script("arguments[0].click();", quiz_button)
 sleep(4)
 drivers.switch_to.frame("contentFrame")
 tr_attr = len(drivers.find_elements(By.XPATH , value='//*[@id="ctl00_ctl00_InsideForm_MasterContent_gridAssignments"]/tbody/tr'))
-old_value = 6
+old_value = tr_attr
 progress = True
 while progress:
     sleep(10)
@@ -85,7 +85,7 @@ while progress:
                         connection.sendmail(from_addr=os.environ.get("MY_EMAIL"), to_addrs=email,msg="Subject: MIS homework notifications\n\n Teacher released new homework , please check your account!!")
             old_value = new_value
             progress = False
-    sleep(30)
+    sleep(30000)
 
 
 
