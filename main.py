@@ -2,33 +2,30 @@ import os
 from time import sleep
 from selenium.webdriver.common.by import By
 import smtplib
-from selenium import webdriver
 from dotenv import load_dotenv
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException,TimeoutException
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 load_dotenv()
 
-CHROME_USER_DATA_DIR = fr"C:\Users\{os.environ.get("CHROME_USER")}\AppData\Local\Google\Chrome\User Data"
-CHROME_PROFILE_DIRECTORY = "Default"
-CHROMEDRIVER_PATH = r"C:\path\to\chromedriver.exe"
-
 def make_driver():
-    options = Options()
-    options.add_argument(r"--user-data-dir=C:\ChromeProfile")
-    options.add_argument("--profile-directory=.")
-    options.add_argument("--headless")
-    # DECREASE BOT FEATURES + DevToolsActivePort fix
-    options.add_argument("--disable-blink-features=AutomationControlled")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--remote-debugging-port=9222")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--start-maximized")
-    # WITH ChromeDriver Manager
+    chrome_options = Options()
+    chrome_options.add_argument("--headless=new")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--window-size=1920,1080")
 
-    driver = webdriver.Chrome(options=options)
+    chrome_options.add_argument(
+        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+
+    driver = webdriver.Chrome(
+        service=Service(ChromeDriverManager().install()),
+        options=chrome_options
+    )
     return driver
 drivers = make_driver()
 drivers.get("https://www.pearson.com/en-us/higher-education/products-services/mylab/login-mylab.html?srsltid=AfmBOoopIwY9GyQ7VgGW4Y9xjOt0jcMpM9Kh1NEk5SXhrRZ7Rtpe_vHD")
