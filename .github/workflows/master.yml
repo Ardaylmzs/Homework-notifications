@@ -1,14 +1,16 @@
 name: Selenium Botu
 
-# Ne zaman çalışacak?
 on:
+  workflow_dispatch:
   schedule:
-    - cron: '0 10 * * *'  # Her gün saat 09:00'da (UTC saatiyle)
-  workflow_dispatch:      # "Run" butonuna basınca manuel çalışsın diye
+    - cron: '0 */4 * * *'  # Her 4 saatte bir çalışır
+
+permissions:
+  contents: write  # <-- BU ÇOK ÖNEMLİ: Bota dosya yazma izni verir
 
 jobs:
-  build:
-    runs-on: ubuntu-latest  # GitHub'ın vereceği bilgisayar (Linux)
+  calistir:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Kodları Çek (Checkout)
@@ -17,18 +19,27 @@ jobs:
       - name: Python Kurulumu
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.10'
 
       - name: Kütüphaneleri Yükle
         run: |
           pip install -r requirements.txt
 
-      - name: Botu Çalıştır
+      - name: Botu Çalıştır ve Hafızayı Güncelle
         env:
-          CHROME_USER: ${{ secrets.CHROME_USER }}
           MYL_LAB_EMAIL: ${{ secrets.MYL_LAB_EMAIL }}
           MY_LAB_PASSWORD: ${{ secrets.MY_LAB_PASSWORD }}
           MY_EMAIL: ${{ secrets.MY_EMAIL }}
           MY_PASSWORD: ${{ secrets.MY_PASSWORD }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
-        run: python main.py
+        run: |
+          python main.py
+          
+          # --- HAFIZA DOSYASINI GITHUB'A GERİ YÜKLEME ---
+          git config --global user.name "Bot Bildirimi"
+          git config --global user.email "bot@github.com"
+          
+          # memory.json değiştiyse commit et, değişmediyse hata verme
+          git add memory.json
+          git commit -m "Ödev sayısı güncellendi" || echo "Değişiklik yok"
+          git push
