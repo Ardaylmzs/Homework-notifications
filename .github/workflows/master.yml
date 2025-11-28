@@ -3,10 +3,10 @@ name: Selenium Botu
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 */4 * * *'  # Her 4 saatte bir çalışır
+    - cron: '0 */4 * * *'  
 
 permissions:
-  contents: write  # <-- BU ÇOK ÖNEMLİ: Bota dosya yazma izni verir
+  contents: write  
 
 jobs:
   calistir:
@@ -35,11 +35,13 @@ jobs:
         run: |
           python main.py
           
-          # --- HAFIZA DOSYASINI GITHUB'A GERİ YÜKLEME ---
           git config --global user.name "Bot Bildirimi"
           git config --global user.email "bot@github.com"
           
-          # memory.json değiştiyse commit et, değişmediyse hata verme
           git add memory.json
+          
           git commit -m "Ödev sayısı güncellendi" || echo "Değişiklik yok"
-          git push
+          
+          git pull origin master --rebase
+          
+          git push origin master
