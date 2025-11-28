@@ -1,4 +1,3 @@
 selenium
 webdriver-manager
-selenium.webdriver.common.by
 dotenv
