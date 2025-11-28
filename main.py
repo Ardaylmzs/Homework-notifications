@@ -53,7 +53,7 @@ except NoSuchElementException:
     drivers.switch_to.window(pearson_page)
 
 submit_button = drivers.find_element(By.XPATH ,value='//*[@id="submitBttn"]')
-submit_button.click()
+drivers.execute_script("arguments[0].click();", submit_button)
 sleep(10)
 mis_button = drivers.find_element(By.XPATH , value='//*[@id="courseCardTitle-tuncali03545"]')
 mis_button.click()
