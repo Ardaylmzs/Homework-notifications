@@ -48,7 +48,7 @@ def make_driver():
 def main():
     driver = make_driver()
     try:
-        print("Siteye gidiliyor...")
+        print("going to website...")
         driver.get("https://www.pearson.com/en-us/higher-education/products-services/mylab/login-mylab.html?srsltid=AfmBOoopIwY9GyQ7VgGW4Y9xjOt0jcMpM9Kh1NEk5SXhrRZ7Rtpe_vHD")
         sleep(5)
 
