@@ -16,7 +16,6 @@ load_dotenv()
 MEMORY_FILE = "memory.json"
 
 def get_saved_count():
-    """Önceki çalıştırmadan kalan ödev sayısını dosyadan okur."""
     if not os.path.exists(MEMORY_FILE):
         return 0 
     try:
@@ -27,7 +26,6 @@ def get_saved_count():
         return 0
 
 def save_new_count(count):
-    """Yeni ödev sayısını dosyaya kaydeder."""
     with open(MEMORY_FILE, "w") as f:
         json.dump({"count": count}, f)
 
@@ -103,13 +101,13 @@ def main():
         current_count = len(driver.find_elements(By.XPATH , value='//*[@id="ctl00_ctl00_InsideForm_MasterContent_gridAssignments"]/tbody/tr'))
         print(f"Sitedeki güncel ödev sayısı: {current_count}")
 
-        # 2. Eski (kayıtlı) ödev sayısını dosyadan oku
+        # 2. read the old number in the previous process
         saved_count = get_saved_count()
         print(f"Hafızadaki eski ödev sayısı: {saved_count}")
 
         # 3. compare
         if current_count > saved_count:
-            print("YENİ ÖDEV TESPİT EDİLDİ! Mail atılıyor...")
+            print("we determined a new homework , are sending the emails!!")
             to_email = os.environ.get("TO_EMAIL")
             if to_email:
                 emails = to_email.split(",")
@@ -120,24 +118,24 @@ def main():
                         connection.sendmail(
                             from_addr=os.environ.get("MY_EMAIL"), 
                             to_addrs=email,
-                            msg="Subject: MIS homework notifications\n\n Teacher released new homework , please check your account!!"
+                            msg=f"Subject: MIS homework notifications\n\n Teacher released the {current_count}. homework , please check your MyLab account!!"
                         )
             
-            # Yeni sayıyı hafızaya kaydet
+            # save the new count
             save_new_count(current_count)
         
         elif current_count < saved_count:
-             print("Ödev sayısı azalmış, hafıza güncelleniyor.")
+             print("the homework number is decreased , is updating now !! .")
              save_new_count(current_count)
              
         else:
-            print("Değişiklik yok. Mail atılmadı.")
+            print("there is no any new homework!!.")
 
     except Exception as e:
-        print(f"Bir hata oluştu: {e}")
+        print(f"we received the error : {e} :(")
     finally:
         driver.quit()
-        print("Driver kapatıldı.")
+        print("is ended the process.")
 
 if __name__ == "__main__":
     main()
