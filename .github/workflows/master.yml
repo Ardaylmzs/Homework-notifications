@@ -32,6 +32,7 @@ jobs:
           MY_EMAIL: ${{ secrets.MY_EMAIL }}
           MY_PASSWORD: ${{ secrets.MY_PASSWORD }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
+          URL: ${{ secrets.URL }}
         run: |
           python main.py
           
