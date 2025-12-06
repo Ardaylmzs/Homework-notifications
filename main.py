@@ -128,7 +128,7 @@ def main():
                         connection.sendmail(
                             from_addr=os.environ.get("MY_EMAIL"),
                             to_addrs=email,
-                            msg=f"Subject: MIS homework notifications\n\n Teacher released the {current_count}. homework , please check your MyLab account!!\n\n Homework deadline is :{h_date.text} 23:59 \n\n\n pearson link :\n {os.environ.get('URL')}"
+                            msg=f"Subject: MIS homework notifications\n\n Teacher released the {current_count}. homework , you dont MISS that :) please check your MyLab account!!\n\n Homework deadline is : {h_date.text[:8]}  {h_date.text[9:16]} \n\n\n pearson link :\n {os.environ.get('URL')}"
                         )
 
             # save the new count
