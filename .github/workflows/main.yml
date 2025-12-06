@@ -1,0 +1,78 @@
+name: Selenium Botu - Paralel
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */4 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  # --- 1. BOT (MEVCUT GÖREV) ---
+  bot_bir:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kodları Çek
+        uses: actions/checkout@v3
+
+      - name: Python Kurulumu
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Kütüphaneleri Yükle
+        run: pip install -r requirements.txt
+
+      - name: 1. Botu Çalıştır
+        env: # 1. Bot için gerekli secret'lar
+          MYL_LAB_EMAIL: ${{ secrets.MYL_LAB_EMAIL }}
+          MY_LAB_PASSWORD: ${{ secrets.MY_LAB_PASSWORD }}
+          MY_EMAIL: ${{ secrets.MY_EMAIL }}
+          MY_PASSWORD: ${{ secrets.MY_PASSWORD }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+          URL: ${{ secrets.URL }}
+        run: |
+          python main.py
+          
+          # Git işlemleri (Buraya dikkat, aşağıda açıklama var)
+          git config --global user.name "Bot 1"
+          git config --global user.email "bot1@github.com"
+          git add memory.json
+          git commit -m "Bot 1 veriyi güncelledi" || echo "Değişiklik yok"
+          git pull origin master --rebase
+          git push origin master
+
+  # --- 2. BOT (YENİ PARALEL GÖREV) ---
+  bot_iki:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kodları Çek
+        uses: actions/checkout@v3
+
+      - name: Python Kurulumu
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Kütüphaneleri Yükle
+        run: pip install -r requirements.txt
+
+      - name: 2. Botu Çalıştır
+        env: # Farklı secretlar veya aynıları kullanılabilir
+          MYL_LAB_EMAIL: ${{ secrets.MYL_LAB_EMAIL }}
+          MY_LAB_PASSWORD: ${{ secrets.MY_LAB_PASSWORD }}
+          MY_EMAIL: ${{ secrets.MY_EMAIL }}
+          MY_PASSWORD: ${{ secrets.MY_PASSWORD }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+          URL: ${{ secrets.URL }}
+        run: |
+          python main2.py  
+          
+          # Git işlemleri
+          git config --global user.name "Bot 2"
+          git config --global user.email "bot2@github.com"
+          git add memory2.json 
+          git commit -m "Bot 2 veriyi güncelledi" || echo "Değişiklik yok"
+          git pull origin master --rebase
+          git push origin master
