@@ -116,7 +116,7 @@ def main():
         # 3. compare
         if actual_count > saved_count:
             print("we determined a new homework , are sending the emails!!")
-            to_email = os.environ.get("TO_EMAIL")
+            to_email = os.environ.get("TO_EMAILS")
             if to_email:
                 emails = to_email.split(",")
                 with smtplib.SMTP("smtp.gmail.com") as connection:
@@ -149,3 +149,4 @@ def main():
 if __name__ == "__main__":
 
     main()
+
