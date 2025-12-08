@@ -64,7 +64,7 @@ jobs:
           MY_LAB_PASSWORD: ${{ secrets.MY_LAB_PASSWORD }}
           MY_EMAIL: ${{ secrets.MY_EMAIL }}
           MY_PASSWORD: ${{ secrets.MY_PASSWORD }}
-          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+          TO_EMAIL: ${{ secrets.TO_EMAILS }}
           URL: ${{ secrets.URL }}
         run: |
           python main2.py  
