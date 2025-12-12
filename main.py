@@ -4,6 +4,7 @@ import smtplib
 from time import sleep
 from dotenv import load_dotenv
 from selenium import webdriver
+from datetime import datetime as dt
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
@@ -108,17 +109,25 @@ def main():
         current_count = len(driver.find_elements(By.XPATH,
                                                  value='//*[@id="ctl00_ctl00_InsideForm_MasterContent_gridAssignments"]/tbody/tr'))
         h_date = driver.find_element(By.XPATH,value='//*[@class=" nowrap"]')
-        print(f"Sitedeki güncel ödev sayısı: {current_count}")
+        print(f"actual number of homework in website: {current_count}")
         print(f"homework deadline is :{h_date.text}")
 
          #2. read the old number in the previous process
         saved_count = get_saved_count()
-        print(f"Hafızadaki eski ödev sayısı: {saved_count}")
+        print(f"old number of homework in the memory: {saved_count}")
+
+        # -- last day notification !!
+
+        last_day = int(h_date[3] + h_date[4])
+        on_last_day = dt.timetuple(dt.today()).tm_mday
+        last_day_hour = dt.timetuple(dt.today()).tm_hour
+
+        # email
+        to_email = os.environ.get("TO_EMAIL")
 
         # 3. compare
         if current_count > saved_count:
             print("we determined a new homework , are sending the emails!!")
-            to_email = os.environ.get("TO_EMAIL")
             if to_email:
                 emails = to_email.split(",")
                 with smtplib.SMTP("smtp.gmail.com") as connection:
@@ -133,6 +142,19 @@ def main():
 
             # save the new count
             save_new_count(current_count)
+        elif last_day == on_last_day and last_day_hour == 15:
+            print("today is last day for math homework!!!")
+            if to_email:
+                _emails = to_email.split(",")
+                with smtplib.SMTP("smtp.gmail.com") as connection:
+                    connection.starttls()
+                    connection.login(user=os.environ.get("MY_EMAIL"), password=os.environ.get("MY_PASSWORD"))
+                    for email in _emails:
+                        connection.sendmail(
+                            from_addr=os.environ.get("MY_EMAIL"),
+                            to_addrs=email,
+                            msg=f"Subject: MIS homework notifications\n\n PAY ATTENTION!! LAST DAY FOR THE {current_count}. HOMEWORK \n you should complete your homework until {h_date.text[9:16]}!!\n\n Homework deadline is : {h_date[:8]}  {h_date.text[9:16]} \n\n\n pearson link :\n {os.environ.get('URL')}"
+                        )
 
         elif current_count < saved_count:
             print("the homework number is decreased , is updating now !! .")
