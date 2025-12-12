@@ -32,6 +32,7 @@ jobs:
           MY_PASSWORD: ${{ secrets.MY_PASSWORD }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
           URL: ${{ secrets.URL }}
+          QUIZ_PATH : ${{ secrets.QUIZ_PATH }}
         run: |
           python main.py
           
@@ -64,8 +65,9 @@ jobs:
           MY_LAB_PASSWORD: ${{ secrets.MY_LAB_PASSWORD }}
           MY_EMAIL: ${{ secrets.MY_EMAIL }}
           MY_PASSWORD: ${{ secrets.MY_PASSWORD }}
-          TO_EMAIL: ${{ secrets.TO_EMAILS }}
+          TO_EMAILS: ${{ secrets.TO_EMAILS }}
           URL: ${{ secrets.URL }}
+          QUIZ_PATH_2: ${{ secrets.QUIZ_PATH_2 }}
         run: |
           python main2.py  
           
