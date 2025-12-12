@@ -16,6 +16,8 @@ load_dotenv()
 # --- Memory docs settings ---
 MEMORY_FILE = "memory.json"
 
+# email
+to_email = os.environ.get("TO_EMAIL")
 
 def get_saved_count():
     if not os.path.exists(MEMORY_FILE):
@@ -52,6 +54,7 @@ def make_driver():
 
 
 def main():
+    global to_email
     driver = make_driver()
     try:
         print("going to website...")
@@ -90,7 +93,7 @@ def main():
         sleep(10)
 
         # Navigation (subject -> homework -> Quiz)
-        mis_button = driver.find_element(By.XPATH, value='//*[@id="courseCardTitle-tuncali03545"]')
+        mis_button = driver.find_element(By.XPATH, value=f'//*[@id="{os.environ.get('QUIZ_PATH')}"]')
         driver.execute_script("arguments[0].click();", mis_button)
         sleep(5)
 
@@ -118,12 +121,9 @@ def main():
 
         # -- last day notification !!
 
-        last_day = int(h_date[3] + h_date[4])
+        last_day = int(h_date.text[3] + h_date.text[4])
         on_last_day = dt.timetuple(dt.today()).tm_mday
         last_day_hour = dt.timetuple(dt.today()).tm_hour
-
-        # email
-        to_email = os.environ.get("TO_EMAIL")
 
         # 3. compare
         if current_count > saved_count:
