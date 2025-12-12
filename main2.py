@@ -16,6 +16,8 @@ load_dotenv()
 # --- Memory docs settings ---
 MEMORY_FILE = "memory2.json"
 
+# e-mail
+to_email = os.environ.get("TO_EMAILS")
 
 
 def get_saved_count():
@@ -53,6 +55,7 @@ def make_driver():
 
 
 def main():
+    global to_email
     driver = make_driver()
     try:
         print("going to website...")
@@ -103,10 +106,10 @@ def main():
         driver.switch_to.frame("contentFrame")
 
         # 1. find the homework numbers
-        current_count = driver.find_elements(By.XPATH,
-                                                 value='//*[@class="assignmentNameColumn"]/a')[0]
+        current_count = driver.find_element(By.XPATH,
+                                                 value='//*[@class="assignmentNameColumn"]/a').text[0]
         h_date = driver.find_element(By.XPATH,value='//*[@class=" nowrap"]')
-        actual_count = int(current_count.text[0])
+        actual_count = int(current_count)
         print(f"actual number of homework in website: {actual_count}")
         print(f"homework deadline is :{h_date.text}")
 
@@ -116,12 +119,9 @@ def main():
 
         # -- last day notification !!
 
-        last_day = int(h_date[3] + h_date[4])
+        last_day = int(h_date.text[3] + h_date.text[4])
         on_last_day = dt.timetuple(dt.today()).tm_mday
         last_day_hour = dt.timetuple(dt.today()).tm_hour
-
-        # email
-        to_email = os.environ.get("TO_EMAILS")
 
         # 3. compare
         if actual_count > saved_count:
@@ -172,3 +172,4 @@ def main():
 if __name__ == "__main__":
 
     main()
+
