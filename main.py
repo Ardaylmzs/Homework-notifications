@@ -143,7 +143,7 @@ def main():
 
             # save the new count
             save_new_count(current_count)
-        elif last_day == on_last_day and last_day_hour == 15:
+        elif last_day == on_last_day and last_day_hour == 16:
             print("today is last day for math homework!!!")
             if to_email:
                 _emails = to_email.split(",")
