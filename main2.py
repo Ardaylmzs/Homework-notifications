@@ -153,7 +153,7 @@ def main():
                         connection.sendmail(
                             from_addr=os.environ.get("MY_EMAIL"),
                             to_addrs=email,
-                            msg=f"Subject: Math homework notifications\n\n PAY ATTENTION!! LAST DAY FOR THE {actual_count}. HOMEWORK \n\n you should complete your homework until {h_date.text[9:16]}  chop chop!!\n\n Homework deadline is : {h_date[:8]}  {h_date.text[9:16]} \n\n\n pearson link :\n {os.environ.get('URL')}"
+                            msg=f"Subject: Math homework notifications\n\n PAY ATTENTION!! LAST DAY FOR THE {actual_count}. HOMEWORK \n\n you should complete your homework until {h_date.text[9:16]} :) !!\n\n Homework deadline is : {h_date.text[:8]}  {h_date.text[9:16]} \n\n\n pearson link :\n {os.environ.get('URL')}"
                         )
 
         elif actual_count < saved_count:
@@ -173,6 +173,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
