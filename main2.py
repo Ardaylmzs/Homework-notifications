@@ -124,6 +124,19 @@ def main():
         on_last_day = dt.timetuple(dt.today()).tm_mday
         last_day_hour = dt.timetuple(dt.today()).tm_hour
 
+        if last_day == on_last_day and last_day_hour == 12:
+            print("today is last day for math homework!!!")
+            if to_email:
+                _emails = to_email.split(",")
+                with smtplib.SMTP("smtp.gmail.com") as connection:
+                    connection.starttls()
+                    connection.login(user=os.environ.get("MY_EMAIL"), password=os.environ.get("MY_PASSWORD"))
+                    for email in _emails:
+                        connection.sendmail(
+                            from_addr=os.environ.get("MY_EMAIL"),
+                            to_addrs=email,
+                            msg=f"Subject: Math homework notifications\n\n PAY ATTENTION!! LAST DAY FOR THE {actual_count}. HOMEWORK \n\n you should complete your homework until {h_date.text[9:16]} :) !!\n\n Homework deadline is : {h_date.text[:8]}  {h_date.text[9:16]} \n\n\n pearson link :\n {os.environ.get('URL')}"
+                        )
         # 3. compare
         if actual_count > saved_count:
             print("we determined a new homework , are sending the emails!!")
@@ -142,19 +155,6 @@ def main():
             # save the new count
             save_new_count(actual_count)
 
-        elif last_day == on_last_day and last_day_hour == 12:
-            print("today is last day for math homework!!!")
-            if to_email:
-                _emails = to_email.split(",")
-                with smtplib.SMTP("smtp.gmail.com") as connection:
-                    connection.starttls()
-                    connection.login(user=os.environ.get("MY_EMAIL"), password=os.environ.get("MY_PASSWORD"))
-                    for email in _emails:
-                        connection.sendmail(
-                            from_addr=os.environ.get("MY_EMAIL"),
-                            to_addrs=email,
-                            msg=f"Subject: Math homework notifications\n\n PAY ATTENTION!! LAST DAY FOR THE {actual_count}. HOMEWORK \n\n you should complete your homework until {h_date.text[9:16]} :) !!\n\n Homework deadline is : {h_date.text[:8]}  {h_date.text[9:16]} \n\n\n pearson link :\n {os.environ.get('URL')}"
-                        )
 
         elif actual_count < saved_count:
             print("the homework number is decreased , is updating now !! .")
@@ -173,6 +173,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
