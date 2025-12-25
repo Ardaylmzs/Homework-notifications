@@ -124,7 +124,7 @@ def main():
         on_last_day = dt.timetuple(dt.today()).tm_mday
         last_day_hour = dt.timetuple(dt.today()).tm_hour
 
-        if last_day == on_last_day and last_day_hour == 12:
+        if last_day == on_last_day and last_day_hour == 18:
             print("today is last day for math homework!!!")
             if to_email:
                 _emails = to_email.split(",")
@@ -173,6 +173,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
