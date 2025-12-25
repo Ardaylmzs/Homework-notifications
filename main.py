@@ -144,7 +144,7 @@ def main():
                             msg=f"Subject: HAPPY NEW YEARS !!! \n\n Happy new year and I hope the new year brings you happiness and health :) \n\n by the way you don't miss the final exams , is coming :/"
                         )
 
-        if last_day == on_last_day and last_day_hour == 9:
+        if last_day == on_last_day and last_day_hour == 12:
             print("today is last day for math homework!!!")
             if to_email:
                 _emails = to_email.split(",")
