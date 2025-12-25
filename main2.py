@@ -109,7 +109,10 @@ def main():
         # 1. find the homework numbers
         current_count = driver.find_element(By.XPATH,
                                                  value='//*[@class="assignmentNameColumn"]/a').text[0]
-        h_date = driver.find_element(By.XPATH,value='//*[@class=" nowrap"]')
+        try:
+            h_date = driver.find_elements(By.XPATH,value='//*[@class=" nowrap"]')[-1]
+        except NoSuchElementException:
+            h_date = driver.find_element(By.XPATH,value='//*[@class=" nowrap"]')
         actual_count = int(current_count)
         print(f"actual number of homework in website: {actual_count}")
         print(f"homework deadline is :{h_date.text}")
@@ -125,6 +128,7 @@ def main():
         last_day_hour = dt.timetuple(dt.today()).tm_hour
         new_year = 31
 
+        #--> Happy New Years
         if on_last_day == new_year  and last_day_hour == 21:
             print("today is last day for 2025 ")
             if to_email:
@@ -139,6 +143,7 @@ def main():
                             msg=f"Subject: HAPPY NEW YEARS !!! \n\n Happy new year and I hope the new year brings you happiness and health :) \n\n by the way you don't miss the final exams , is coming :/"
                         )
 
+        #--> Last Day Notifications
         if last_day == on_last_day and last_day_hour == 9:
             print("today is last day for math homework!!!")
             if to_email:
@@ -150,7 +155,7 @@ def main():
                         connection.sendmail(
                             from_addr=os.environ.get("MY_EMAIL"),
                             to_addrs=email,
-                            msg=f"Subject: Math homework notifications\n\n PAY ATTENTION!! LAST DAY FOR THE {actual_count}. HOMEWORK \n\n you should complete your homework until {h_date.text[9:16]} :) !!\n\n Homework deadline is : {h_date.text[:8]}  {h_date.text[9:16]} \n\n\n pearson link :\n {os.environ.get('URL')}"
+                            msg=f"Subject: Math homework notifications\n\n PAY ATTENTION!! LAST DAY FOR THE {actual_count}. HOMEWORK \n\n you should complete your homework until {h_date.text[9:16]} :) !!\n\n\n pearson link :\n {os.environ.get('URL')}"
                         )
         # 3. compare
         if actual_count > saved_count:
@@ -188,6 +193,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
