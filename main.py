@@ -130,6 +130,7 @@ def main():
         last_day_hour = dt.timetuple(dt.today()).tm_hour
         new_year = 31
 
+        # Happy New Years
         if on_last_day == new_year  and last_day_hour == 21:
             print("today is last day for 2025 ")
             if to_email:
@@ -144,6 +145,7 @@ def main():
                             msg=f"Subject: HAPPY NEW YEARS !!! \n\n Happy new year and I hope the new year brings you happiness and health :) \n\n by the way you don't miss the final exams , is coming :/"
                         )
 
+        # Last Day Notifications
         if last_day == on_last_day and last_day_hour == 12:
             print("today is last day for math homework!!!")
             if to_email:
