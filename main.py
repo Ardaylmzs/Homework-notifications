@@ -112,7 +112,10 @@ def main():
         # 1. find the homework numbers
         current_count = len(driver.find_elements(By.XPATH,
                                                  value='//*[@id="ctl00_ctl00_InsideForm_MasterContent_gridAssignments"]/tbody/tr'))
-        h_date = driver.find_element(By.XPATH,value='//*[@class=" nowrap"]')
+        try:
+            h_date = driver.find_elements(By.XPATH,value='//*[@class=" nowrap"]')[-1]
+        except NoSuchElementException:
+            h_date = driver.find_element(By.XPATH, value='//*[@class=" nowrap"]')
         print(f"actual number of homework in website: {current_count}")
         print(f"homework deadline is :{h_date.text}")
 
@@ -125,8 +128,23 @@ def main():
         last_day = int(h_date.text[3] + h_date.text[4])
         on_last_day = dt.timetuple(dt.today()).tm_mday
         last_day_hour = dt.timetuple(dt.today()).tm_hour
+        new_year = 31
 
-        if last_day == on_last_day and last_day_hour == 12:
+        if on_last_day == new_year  and last_day_hour == 21:
+            print("today is last day for 2025 ")
+            if to_email:
+                _emails = to_email.split(",")
+                with smtplib.SMTP("smtp.gmail.com") as connection:
+                    connection.starttls()
+                    connection.login(user=os.environ.get("MY_EMAIL"), password=os.environ.get("MY_PASSWORD"))
+                    for email in _emails:
+                        connection.sendmail(
+                            from_addr=os.environ.get("MY_EMAIL"),
+                            to_addrs=email,
+                            msg=f"Subject: HAPPY NEW YEARS !!! \n\n Happy new year and I hope the new year brings you happiness and health :) \n\n by the way you don't miss the final exams , is coming :/"
+                        )
+
+        if last_day == on_last_day and last_day_hour == 9:
             print("today is last day for math homework!!!")
             if to_email:
                 _emails = to_email.split(",")
