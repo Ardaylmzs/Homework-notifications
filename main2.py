@@ -95,7 +95,7 @@ def main():
 
         # Navigation (subject -> homework -> Quiz)
         quiz_path_2 = os.environ.get("QUIZ_PATH_2")
-        math_button = driver.find_element(By.XPATH, value=f'//*[@id="{quiz_path_2}"]')
+        math_button = driver.find_element(By.XPATH, value=f'//*[@id="{QUIZ_PATH_2}"]')
         driver.execute_script("arguments[0].click();", math_button)
         sleep(5)
 
@@ -209,6 +209,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
