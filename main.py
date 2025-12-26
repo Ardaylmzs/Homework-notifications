@@ -93,7 +93,8 @@ def main():
         sleep(10)
 
         # Navigation (subject -> homework -> Quiz)
-        mis_button = driver.find_element(By.XPATH, value=f'//*[@id="{os.environ.get('QUIZ_PATH')}"]')
+        quiz_path = os.environ.get('QUIZ_PATH')
+        mis_button = driver.find_element(By.XPATH, value=f'//*[@id="{quiz_path}"]')
         driver.execute_script("arguments[0].click();", mis_button)
         sleep(5)
 
