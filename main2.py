@@ -140,7 +140,7 @@ def main():
                             connection.sendmail(
                                 from_addr=os.environ.get("MY_EMAIL"),
                                 to_addrs=email,
-                                msg=f"Subject: Math homework notifications\n\n PAY ATTENTION!! LAST DAY FOR THE {actual_count}. HOMEWORK \n\n you should complete your homework until {h_date.text[9:16]} :) !!\n\n\n pearson link :\n {os.environ.get('URL')}"
+                                msg=f"Subject: Math homework notifications\n\n PAY ATTENTION!! LAST DAY FOR THE HOMEWORK \n\n you should complete your homework until {h_date.text[9:16]} :) !!\n\n\n pearson link :\n {os.environ.get('URL')}"
                             )
         except NoSuchElementException:
             last_day = int(h_date.text[3] + h_date.text[4])
@@ -155,7 +155,7 @@ def main():
                             connection.sendmail(
                                 from_addr=os.environ.get("MY_EMAIL"),
                                 to_addrs=email,
-                                msg=f"Subject: Math homework notifications\n\n PAY ATTENTION!! LAST DAY FOR THE {actual_count}. HOMEWORK \n\n you should complete your homework until {h_date.text[9:16]} :) !!\n\n\n pearson link :\n {os.environ.get('URL')}"
+                                msg=f"Subject: Math homework notifications\n\n PAY ATTENTION!! LAST DAY FOR THE HOMEWORK \n\n you should complete your homework until {h_date.text[9:16]} :) !!\n\n\n pearson link :\n {os.environ.get('URL')}"
                             )
 
 
@@ -209,6 +209,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
