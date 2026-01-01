@@ -127,7 +127,7 @@ def main():
         new_year = 31
         try:
             dates = driver.find_elements(By.XPATH,value='//*[@class=" nowrap"]')[0].text
-            last_day = int(dates[3] + dates[4])
+            last_day = int(dates[0] + dates[1])
             # --> Last Day Notifications
             if last_day == on_last_day and last_day_hour == 9:
                 print("today is last day for math homework!!!")
@@ -143,7 +143,7 @@ def main():
                                 msg=f"Subject: Math homework notifications\n\n PAY ATTENTION!! LAST DAY FOR THE HOMEWORK \n\n you should complete your homework until {h_date.text[9:16]} :) !!\n\n\n pearson link :\n {os.environ.get('URL')}"
                             )
         except NoSuchElementException:
-            last_day = int(h_date.text[3] + h_date.text[4])
+            last_day = int(h_date.text[0] + h_date.text[1])
             if last_day == on_last_day and last_day_hour == 9:
                 print("today is last day for math homework!!!")
                 if to_email:
@@ -209,6 +209,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
