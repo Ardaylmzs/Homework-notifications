@@ -135,7 +135,7 @@ def main():
                 print(date.text)
                 last_day = int(date.text[3] + date.text[4])
                 if last_day == on_last_day and last_day_hour == 12:
-                    print("today is last day for math homework!!!")
+                    print("today is last day for mis homework!!!")
                     if to_email:
                         _emails = to_email.split(",")
                         with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
