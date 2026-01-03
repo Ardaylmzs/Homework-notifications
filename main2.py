@@ -125,23 +125,28 @@ def main():
         on_last_day = dt.timetuple(dt.today()).tm_mday
         last_day_hour = dt.timetuple(dt.today()).tm_hour
         new_year = 31
+        
         try:
-            dates = driver.find_elements(By.XPATH,value='//*[@class=" nowrap"]')[0].text
-            last_day = int(dates[0] + dates[1])
-            # --> Last Day Notifications
-            if last_day == on_last_day and last_day_hour == 9:
-                print("today is last day for math homework!!!")
-                if to_email:
-                    _emails = to_email.split(",")
-                    with smtplib.SMTP("smtp.gmail.com",port=587) as connection:
-                        connection.starttls()
-                        connection.login(user=os.environ.get("MY_EMAIL"), password=os.environ.get("MY_PASSWORD"))
-                        for email in _emails:
-                            connection.sendmail(
-                                from_addr=os.environ.get("MY_EMAIL"),
-                                to_addrs=email,
-                                msg=f"Subject: Math homework notifications\n\n PAY ATTENTION!! LAST DAY FOR THE HOMEWORK \n\n you should complete your homework until {h_date.text[9:16]} :) !!\n\n\n pearson link :\n {os.environ.get('URL')}"
-                            )
+            dates = driver.find_elements(By.XPATH,value='//*[@class=" nowrap"]')
+            for date in dates:
+                print(date.text)
+                last_day = int(date.text[0] + date.text[1])
+                # --> last day messages!!!
+                if last_day == on_last_day and last_day_hour == 9:
+                    print("today is last day for math homework!!!")
+                    if to_email:
+                        _emails = to_email.split(",")
+                        with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
+                            connection.starttls()
+                            connection.login(user=os.environ.get("MY_EMAIL"), password=os.environ.get("MY_PASSWORD"))
+                            for email in _emails:
+                                connection.sendmail(
+                                    from_addr=os.environ.get("MY_EMAIL"),
+                                    to_addrs=email,
+                                    msg=f"Subject: Math homework notifications\n\n PAY ATTENTION!! LAST DAY FOR THE HOMEWORK \n\n you should complete your homework until {h_date.text[9:16]} :) !!\n\n\n pearson link :\n {os.environ.get('URL')}"
+                                )
+                else:
+                    print("This date is not last day for math homework!!!")
         except NoSuchElementException:
             last_day = int(h_date.text[0] + h_date.text[1])
             if last_day == on_last_day and last_day_hour == 9:
@@ -209,6 +214,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
