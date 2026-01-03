@@ -93,8 +93,7 @@ def main():
         sleep(10)
 
         # Navigation (subject -> homework -> Quiz)
-        quiz_path = os.environ.get('QUIZ_PATH')
-        mis_button = driver.find_element(By.XPATH, value=f'//*[@id="{quiz_path}"]')
+        mis_button = driver.find_element(By.XPATH, value=f'//*[@id="{os.environ.get('QUIZ_PATH')}"]')
         driver.execute_script("arguments[0].click();", mis_button)
         sleep(5)
 
@@ -131,21 +130,25 @@ def main():
         print(on_last_day)
 
         try:
-            dates = driver.find_elements(By.XPATH,value='//*[@class=" nowrap"]')[0].text
-            last_day = int(dates[3] + dates[4])
-            if last_day == on_last_day and last_day_hour == 12:
-                print("today is last day for math homework!!!")
-                if to_email:
-                    _emails = to_email.split(",")
-                    with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
-                        connection.starttls()
-                        connection.login(user=os.environ.get("MY_EMAIL"), password=os.environ.get("MY_PASSWORD"))
-                        for email in _emails:
-                            connection.sendmail(
-                                from_addr=os.environ.get("MY_EMAIL"),
-                                to_addrs=email,
-                                msg=f"Subject: MIS homework notifications\n\n PAY ATTENTION!! LAST DAY FOR THE HOMEWORK \n\n you should complete your homework until {h_date.text[9:16]} :) !!\n\n\n pearson link :\n {os.environ.get('URL')}"
-                            )
+            dates = driver.find_elements(By.XPATH,value='//*[@class=" nowrap"]')
+            for date in dates:
+                print(date.text)
+                last_day = int(date.text[3] + date.text[4])
+                if last_day == on_last_day and last_day_hour == 12:
+                    print("today is last day for math homework!!!")
+                    if to_email:
+                        _emails = to_email.split(",")
+                        with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
+                            connection.starttls()
+                            connection.login(user=os.environ.get("MY_EMAIL"), password=os.environ.get("MY_PASSWORD"))
+                            for email in _emails:
+                                connection.sendmail(
+                                    from_addr=os.environ.get("MY_EMAIL"),
+                                    to_addrs=email,
+                                    msg=f"Subject: MIS homework notifications\n\n PAY ATTENTION!! LAST DAY FOR THE HOMEWORK \n\n you should complete your homework until {h_date.text[9:16]} :) !!\n\n\n pearson link :\n {os.environ.get('URL')}"
+                                )
+                else:
+                    print("This date is not last day for mis homework!!!")
         except NoSuchElementException:
             last_day = int(h_date.text[3] + h_date.text[4])
             if last_day == on_last_day and last_day_hour == 12:
@@ -161,7 +164,21 @@ def main():
                                 to_addrs=email,
                                 msg=f"Subject: Math homework notifications\n\n PAY ATTENTION!! LAST DAY FOR THE HOMEWORK \n\n you should complete your homework until {h_date.text[9:16]} :) !!\n\n\n pearson link :\n {os.environ.get('URL')}"
                             )
-        
+        # Happy New Year
+
+        if on_last_day == new_year  and last_day_hour == 21:
+            print("today is last day for 2025 ")
+            if to_email:
+                _emails = to_email.split(",")
+                with smtplib.SMTP("smtp.gmail.com",port=587) as connection:
+                    connection.starttls()
+                    connection.login(user=os.environ.get("MY_EMAIL"), password=os.environ.get("MY_PASSWORD"))
+                    for email in _emails:
+                        connection.sendmail(
+                            from_addr=os.environ.get("MY_EMAIL"),
+                            to_addrs=email,
+                            msg=f"Subject: HAPPY NEW YEARS !!! \n\n Happy new year and I hope the new year brings you happiness and health :) \n\n by the way you don't miss the final exams , is coming :/"
+                        )
         #  4. compare
         if current_count > saved_count:
             print("we determined a new homework , are sending the emails!!")
