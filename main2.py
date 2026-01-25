@@ -179,7 +179,7 @@ def main():
                             msg=f"Subject: HAPPY NEW YEARS !!! \n\n Happy new year and I hope the new year brings you happiness and health :) \n\n by the way you don't miss the final exams , is coming :/"
                         )
         # good bye!!!
-        if on_last_day == 24 and last_day_hour == 12:
+        if on_last_day == 25 and last_day_hour == 13:
             print("today is last day for my job :(")
             if to_email:
                 _emails = to_email.split(",")
@@ -229,6 +229,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
