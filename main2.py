@@ -124,6 +124,7 @@ def main():
         # -- last day notification !!
         on_last_day = dt.timetuple(dt.today()).tm_mday
         last_day_hour = dt.timetuple(dt.today()).tm_hour
+        month = dt.timetuple(dt.today()).tm_mon
         new_year = 31
         
         try:
@@ -165,7 +166,7 @@ def main():
 
 
         #--> Happy New Years
-        if on_last_day == new_year  and last_day_hour == 21:
+        if on_last_day == new_year  and last_day_hour == 21 and month == 12:
             print("today is last day for 2025 ")
             if to_email:
                 _emails = to_email.split(",")
@@ -177,20 +178,6 @@ def main():
                             from_addr=os.environ.get("MY_EMAIL"),
                             to_addrs=email,
                             msg=f"Subject: HAPPY NEW YEARS !!! \n\n Happy new year and I hope the new year brings you happiness and health :) \n\n by the way you don't miss the final exams , is coming :/"
-                        )
-        # good bye!!!
-        if on_last_day == 25 and last_day_hour == 13:
-            print("today is last day for my job :(")
-            if to_email:
-                _emails = to_email.split(",")
-                with smtplib.SMTP("smtp.gmail.com",port=587) as connection:
-                    connection.starttls()
-                    connection.login(user=os.environ.get("MY_EMAIL"), password=os.environ.get("MY_PASSWORD"))
-                    for email in _emails:
-                        connection.sendmail(
-                            from_addr=os.environ.get("MY_EMAIL"),
-                            to_addrs=email,
-                            msg=f"Subject: GOOD BYE :( !!!\n\n I wish everyone happy holidays, I hope you have a good time. Unfortunately, I've reached the end of the task assigned to me. I tried my best to deliver your emails,but sometimes I sent you the wrong emails due to errors in my code, and I apologize for that. I plan to provide you with a more advanced service next time and I will continue to improve myself. Thank you for helping me during this demo phase by giving me your email addresses. Happy holidays to everyone again , see you again :)"
                         )
         
         # 3. compare
@@ -229,6 +216,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
