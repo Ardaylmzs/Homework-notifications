@@ -168,7 +168,7 @@ def main():
                             )
         # Happy New Year
 
-        if on_last_day == new_year  and last_day_hour == 21 and month = 12:
+        if on_last_day == new_year  and last_day_hour == 21 and month == 12:
             print("today is last day for 2025 ")
             if to_email:
                 _emails = to_email.split(",")
