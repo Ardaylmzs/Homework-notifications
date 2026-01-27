@@ -128,6 +128,7 @@ def main():
         on_last_day = dt.timetuple(dt.today()).tm_mday
         last_day_hour = dt.timetuple(dt.today()).tm_hour
         new_year = 31
+        month = dt.timetuple(dt.today()).tm_mon
         print(on_last_day)
 
         try:
@@ -167,7 +168,7 @@ def main():
                             )
         # Happy New Year
 
-        if on_last_day == new_year  and last_day_hour == 21:
+        if on_last_day == new_year  and last_day_hour == 21 and month = 12:
             print("today is last day for 2025 ")
             if to_email:
                 _emails = to_email.split(",")
